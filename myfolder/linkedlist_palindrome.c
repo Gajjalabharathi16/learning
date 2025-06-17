@@ -1,37 +1,64 @@
 #include<stdio.h>
 #include<stdlib.h>
-void list_creation();
-void add_node_at_middle();
-void display();
-struct linked_list
-{
+#include<stdbool.h>
+
+struct Node{
     int data;
-    struct linked_list *link;
+    struct Node *link;
 };
-struct linked_list *head=NULL;
-int main()
+
+void list_creation(struct Node **head);
+
+bool isPalindrome(struct Node *head)
 {
-    list_creation();
-    add_node_at_middle();
-    display();
+    struct Node *slow=head;
+    struct Node *fast=head;
+    while(fast->link && fast->link->link)
+    {
+        slow=slow->link;
+        fast=fast->link->link;
+    }
+    struct Node *prev=NULL,*curr=slow->link,*next=NULL;
+    while(curr!=NULL)
+    {
+        next=curr->link;
+        curr->link=prev;
+        prev=curr;
+        curr=next;
+    }
+    struct Node *first=head;
+    struct Node *second=prev;
+    bool isPalin =true;
+    while(second!=NULL)
+    {
+    if(first->data!=second->data)
+    {
+        isPalin=false;
+        break;
+    }
+    first=first->link;
+    second=second->link;
+    
+    }
+    return isPalin;
 }
-void list_creation()
+void list_creation(struct Node **head)
 {
-    struct linked_list *newnode=NULL;
-     struct linked_list *temp=NULL;
+    struct Node *newnode=NULL;
+     struct Node *temp=NULL;
      int choice;
      printf("enter no of nodes\n");
      scanf("%d",&choice);
      for(int i=0;i<choice;i++)
      {
-         newnode=(struct linked_list *)malloc(sizeof(struct linked_list));
+         newnode=(struct Node *)malloc(sizeof(struct Node));
          int value;
          scanf("%d",&value);
          newnode->data=value;
          newnode->link=NULL;
-         if(head==NULL)
+         if(*head==NULL)
          {
-             head=temp=newnode;
+             *head=temp=newnode;
          }
          else
          {
@@ -41,30 +68,18 @@ void list_creation()
      }
 }
 
-void add_node_at_middle()
+int main()
 {
-    struct linked_list *newnode=(struct linked_list*)malloc(sizeof(struct linked_list));
-    int value;
-    printf("enter node to insert at middle");
-    scanf("%d",&value);
-    newnode->data=value;
-    newnode->link=NULL;
-    struct linked_list *fast=head;
-    struct linked_list *slow=head;
-    while(fast->link!=NULL && fast->link->link!=NULL)
+    struct Node *head=NULL;
+    list_creation(&head);
+    
+    if(isPalindrome(head))
     {
-        slow=slow->link;
-        fast=fast->link->link;
+        printf("palindrome");
     }
-    newnode->link=slow->link;
-    slow->link=newnode;
-}
-void display()
-{
-    struct linked_list *temp=head;
-    while(temp!=NULL)
+    else
     {
-        printf("%d",temp->data);
-        temp=temp->link;
+        printf("not");
     }
 }
+
