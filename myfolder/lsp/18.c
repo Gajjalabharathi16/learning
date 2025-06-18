@@ -29,3 +29,26 @@ int main() {
 /*if the owner is not present makesure to create the owner using---> sudo useradd user1
 for confirmation check--->getent passwd user
 now execute using---> sudo ./a.out
+
+Before executing:
+
+breddy1@BHARATHI:~/lsp/files$ ls -l file.txt
+-rw-rw-rw- 1 breddy1 breddy1 313 Jun 17 17:43 file.txt
+
+After executing:
+
+breddy1@BHARATHI:~/lsp/files$ ls -l file.txt
+-rw-rw-rw- 1 user1 breddy1 313 Jun 17 17:43 file.txt
+
+first the owner(uid) and group(gid) name are breddy1
+now after changing only the userid the uid name is user1 and group (gid) is breddy1
+
+
+chown() syntax:
+int chown(const char *pathname, uid_t owner, gid_t group);
+pathname: the file name
+
+owner: new user ID (use -1 to leave unchanged)
+
+group: new group ID (use -1 to leave unchanged)
+    */
