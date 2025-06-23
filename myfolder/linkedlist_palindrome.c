@@ -13,11 +13,13 @@ bool isPalindrome(struct Node *head)
 {
     struct Node *slow=head;
     struct Node *fast=head;
+    //finding middle node-->>1 2 3 2 1
     while(fast->link && fast->link->link)
     {
         slow=slow->link;
         fast=fast->link->link;
     }
+    //reversing second half 1 2 3 1 2
     struct Node *prev=NULL,*curr=slow->link,*next=NULL;
     while(curr!=NULL)
     {
@@ -26,6 +28,7 @@ bool isPalindrome(struct Node *head)
         prev=curr;
         curr=next;
     }
+    //compare first half(1 2 3) and second half(1 2)
     struct Node *first=head;
     struct Node *second=prev;
     bool isPalin =true;
